@@ -27,19 +27,19 @@ function Game(){
         switch(event.code){
             case "KeyW":
                 if(game.canvas1Loc.y+100 > game.world.top)
-                    game.canvas1Loc.y -= 20;
+                    game.canvas1Loc.y -= 50;
                 break;
             case "KeyS":
                 if(game.canvas1Loc.y + game.canvas1.height -100 < game.world.bottom)
-                    game.canvas1Loc.y += 20;
+                    game.canvas1Loc.y += 50;
                 break;
             case "KeyA":
                 if(game.canvas1Loc.x+100 > game.world.left)
-                    game.canvas1Loc.x -= 20;
+                    game.canvas1Loc.x -= 50;
                 break;
             case "KeyD":
                 if(game.canvas1Loc.x + game.canvas1.width -100 < game.world.right)
-                    game.canvas1Loc.x += 20;
+                    game.canvas1Loc.x += 50;
                 break;
             break;
             }
@@ -59,20 +59,55 @@ Game.prototype.run = function(){
     ctx2.fillStyle =  "#505050";
     ctx2.fillRect(0,0,cnv2.width,cnv2.height);
 
-    // translate canvas1 according to the location of the canvas in the world
+    // translate canvas1 according to the location of the canvas in the
+    ctx1.save();
+    ctx1.translate(this.canvas1Loc.x*(-1), this.canvas1Loc.y*(-1));
 
     // draw the bounds of the world in canvas1
+    ctx1.strokeStyle = "rgba(255, 255, 0, 1)"
+    ctx1.beginPath();
+    ctx1.lineWidth = 5;
+    ctx1.strokeRect(this.world.left, this.world.top, this.world.width, this.world.height);
 
     // draw the x and y axes of the world in canvas1
+    ctx1.strokeStyle = "rgba(255, 0, 255, 1)"
+    ctx1.beginPath();
+    ctx1.moveTo(0, this.world.top);
+    ctx1.lineTo(0, this.world.bottom);
+    ctx1.stroke();
+    ctx1.moveTo(this.world.left, 0);
+    ctx1.lineTo(this.world.right, 0);
+    ctx1.stroke();
 
     // scale canvas2 to contain the entire world
+    ctx2.save();
+    ctx2.beginPath();
+    ctx2.lineWidth = 25;
+    ctx2.strokeStyle = "rgba(255, 0, 0, 1)"
+    ctx2.scale(this.scaleX, this.scaleY);
 
     // center the world in canvas2
-
-    // draw the x and y axes of the world
-
+    ctx2.translate(this.world.width/2, this.world.height/2);
 
     // draw the outline of canvas1 in canvas2
+    ctx2.strokeStyle = "rgba(255, 255, 255, 1)"
+    ctx2.strokeRect(this.canvas1Loc.x, this.canvas1Loc.y, this.canvas1.width, this.canvas1.height);
+
+    // draw the x and y axes of the world
+    ctx2.strokeStyle = "rgba(255, 0, 255, 1)"
+    ctx2.moveTo(0, this.world.top);
+    ctx2.lineTo(0, this.world.bottom);
+    ctx2.stroke();
+    ctx2.moveTo(this.world.left, 0);
+    ctx2.lineTo(this.world.right, 0);
+    ctx2.stroke();
+    ctx1.restore();
+    ctx2.restore();
+
+    // draw the outline of canvas1 in canvas2
+    // ctx2.strokeStyle = "rgba(255, 255, 255, 1)"
+    // ctx2.strokeRect(this.canvas1Loc.x, this.canvas1Loc.y, this.canvas1.width, this.canvas1.height);
+
 
     // run all the actors
 
