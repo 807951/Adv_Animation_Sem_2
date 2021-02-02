@@ -22,10 +22,10 @@ class EcoSystem {
         this.cells = new Array(this.numRows);
 
         //load 2D cells array with Cell objects
-        for(let r=0; r<this.cells.length; r++){
+        for(let r = 0; r < this.cells.length; r++){
           this.cells[r] = new Array(this.numCols);
           for(let c = 0; c < this.numCols; c++){
-            if(Math.random() > 0.75){
+            if(Math.random() >= 0.75){
                 this.cells[r][c] = new Cell(this, r, c, true);
             }else{
                 this.cells[r][c] = new Cell(this, r, c, false);
@@ -64,8 +64,8 @@ class EcoSystem {
         }, false);
 
         this.canvas1.addEventListener("click", function(event){
-          let r = Math.floor((event.offsetY+ecoSystem.canvas1Loc.y-ecoSystem.world.top)/ecoSystem.cellHeight);
-          let c = Math.floor((event.offsetX+ecoSystem.canvas1Loc.x-ecoSystem.world.left)/ecoSystem.cellWidth);
+          let r = Math.floor((event.offsetY + ecoSystem.canvas1Loc.y - ecoSystem.world.top) / ecoSystem.cellHeight);
+          let c = Math.floor((event.offsetX + ecoSystem.canvas1Loc.x - ecoSystem.world.left) / ecoSystem.cellWidth);
           ecoSystem.cells[r][c].occupied = !ecoSystem.cells[r][c].occupied;
           if(!ecoSystem.cells[r][c].occupied){
             ecoSystem.cells[r][c].loadNeighbors(ecoSystem.cells[r][c].neighbors);
@@ -161,14 +161,6 @@ class EcoSystem {
           this.cells[r][c].run();
         }
       }
-
-      // for(let r=0; r<this.numRows; r++){
-      //   for(let c=0; c<this.numCols; c++){
-      //     this.cells[r][c].run();
-      //   }
-      // }
-
-
       ctx1.restore();
       ctx2.restore();
   }
