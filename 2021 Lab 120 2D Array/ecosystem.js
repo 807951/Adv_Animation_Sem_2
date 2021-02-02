@@ -14,18 +14,25 @@ class EcoSystem {
             height: 3000
         }
 
-        this.numCols = 15;
+        this.numCols = 50;
         this.cellWidth = this.world.width/this.numCols;
-        this.numRows = 15;
+        this.numRows = 50;
         this.cellHeight = this.world.height/this.numRows;
 
         this.cells = new Array(this.numRows);
+
+        //load 2D cells array with Cell objects
         for(let r=0; r<this.cells.length; r++){
           this.cells[r] = new Array(this.numCols);
-          for(let c=0; c<this.numCols; c++){
-            this.cells[r][c] = new Cell(this, r, c);
+          for(let c = 0; c < this.numCols; c++){
+            if(Math.random() > 0.75){
+                this.cells[r][c] = new Cell(this, r, c, true);
+            }else{
+                this.cells[r][c] = new Cell(this, r, c, false);
+            }
           }
         }
+        this.arrayLoaded = true;
 
         // canvas2 is scaled according to the ratio of its
         // height and width to the height and width of the world
@@ -55,6 +62,26 @@ class EcoSystem {
                     break;
             }
         }, false);
+
+        this.canvas1.addEventListener("click", function(event){
+          let r = Math.floor((event.offsetY+ecoSystem.canvas1Loc.y-ecoSystem.world.top)/ecoSystem.cellHeight);
+          let c = Math.floor((event.offsetX+ecoSystem.canvas1Loc.x-ecoSystem.world.left)/ecoSystem.cellWidth);
+          ecoSystem.cells[r][c].occupied = !ecoSystem.cells[r][c].occupied;
+          if(!ecoSystem.cells[r][c].occupied){
+            ecoSystem.cells[r][c].loadNeighbors(ecoSystem.cells[r][c].neighbors);
+          }else{
+            ecoSystem.cells[r][c].neighbors = {
+              n: null,
+              ne: null,
+              e: null,
+              se: null,
+              s: null,
+              sw: null,
+              w: null,
+              nw: null
+            }
+          }
+        });
     }//  +++++++++++++++++++++++++++++++++++++++++++++++++++  end Constructor
 
     // function to run the game each animation cycle
@@ -63,7 +90,8 @@ class EcoSystem {
       let cnv1 = this.canvas1;
       let ctx2 = this.context2;
       let cnv2 = this.canvas2;
-      ctx1.fillStyle = "#505050";
+      ctx1.fillStyle = "#3bc4b9";
+      //ctx1.fillStyle = "#505050";
       ctx1.fillRect(0, 0, cnv1.width, cnv1.height);
       ctx2.fillStyle = "#505050";
       ctx2.fillRect(0, 0, cnv2.width, cnv2.height);
@@ -111,12 +139,34 @@ class EcoSystem {
       ctx2.rect(c1x, c1y, cnv1.width, cnv1.height);
       ctx2.stroke();
 
+      let firstRow = Math.floor((this.canvas1Loc.y-this.world.top)/this.cellHeight);
+      if(firstRow<0){
+        firstRow=0;
+      }
+      let lastRow = Math.floor(firstRow+(cnv1.height/this.cellHeight));
+      if(lastRow>=this.numRows){
+        lastRow=this.numRows - 1;
+      }
+      let firstCol = Math.floor((this.canvas1Loc.x-this.world.left)/this.cellWidth);
+      if(firstCol<0){
+        firstCol=0;
+      }
+      let lastCol = Math.floor((this.canvas1Loc.x-this.world.left+cnv1.width)/this.cellWidth);
+      if(lastCol>=this.numCols){
+        lastCol=this.numCols-1;
+      }
 
-      for(let r = 0; r < this.numRows; r++){
-        for(let c = 0; c < this.numCols; c++){
+      for(let r=firstRow; r<=lastRow; r++){
+        for(let c=firstCol; c<=lastCol; c++){
           this.cells[r][c].run();
         }
       }
+
+      // for(let r=0; r<this.numRows; r++){
+      //   for(let c=0; c<this.numCols; c++){
+      //     this.cells[r][c].run();
+      //   }
+      // }
 
 
       ctx1.restore();
