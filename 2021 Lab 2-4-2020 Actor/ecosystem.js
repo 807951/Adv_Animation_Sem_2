@@ -15,16 +15,13 @@ class EcoSystem {
             height: 3000
         }
 
-        //make 40 columns and 30 rows
         this.numCols = 40;
         this.cellWidth = this.world.width/this.numCols;
-        this.numRows = 30;
+        this.numRows = 40;
         this.cellHeight = this.world.height/this.numRows;
 
-        //creating cells array
         this.cells = new Array(this.numRows);
 
-        //load 2D cells array with Cell objects
         for(let r=0; r<this.cells.length; r++){
           this.cells[r] = new Array(this.numCols);
           for(let c=0; c<this.numCols; c++){
@@ -38,7 +35,6 @@ class EcoSystem {
         this.arrayLoaded = true;
 
         this.canvas1Loc = new JSVector(this.cells[0][0].loc.x, this.cells[0][0].loc.y);
-        //actor
         this.actor = new Actor();
 
         // canvas2 is scaled according to the ratio of its
@@ -46,38 +42,49 @@ class EcoSystem {
         // so that the entire world fits within canvas2
         this.scaleX = this.canvas2.width / this.world.width;
         this.scaleY = this.canvas2.height / this.world.height;
-        // add an event handler such that the a, s, w, d keys
-        // will reposition the canvas within the world.
-        // window.addEventListener("keypress", function (event) {
-        //     switch (event.code) {
-        //         case "KeyW":
-        //             if (ecoSystem.canvas1Loc.y + 100 > ecoSystem.world.top)
-        //             ecoSystem.canvas1Loc.y -= 20;
-        //             break;
-        //         case "KeyS":
-        //             if (ecoSystem.canvas1Loc.y + ecoSystem.canvas1.height - 100 < ecoSystem.world.bottom)
-        //             ecoSystem.canvas1Loc.y += 20;
-        //             break;
-        //         case "KeyA":
-        //             if (ecoSystem.canvas1Loc.x + 100 > ecoSystem.world.left)
-        //             ecoSystem.canvas1Loc.x -= 20;
-        //             break;
-        //         case "KeyD":
-        //             if (ecoSystem.canvas1Loc.x + ecoSystem.canvas1.width - 100 < ecoSystem.world.right)
-        //             ecoSystem.canvas1Loc.x += 20;
-        //             break;
-        //             break;
-        //     }
-        // }, false);
+         //add an event handler such that the a, s, w, d keys
+         //will reposition the canvas within the world.
+         window.addEventListener("keypress", function (event) {
+             switch (event.code) {
+                 case "KeyW":
+                     if (ecoSystem.canvas1Loc.y + 100 > ecoSystem.world.top){
+                       ecoSystem.canvas1Loc.y -= 20;
+                       this.actor.loc.y -= 200; 
+                     }
+                     break;
+                 case "KeyS":
+                 
+                     if (ecoSystem.canvas1Loc.y + ecoSystem.canvas1.height - 100 < ecoSystem.world.bottom){
+                      ecoSystem.canvas1Loc.y += 20;
+                      this.actor.loc.y += 200; 
+                     }
+                    break;
+                case "KeyA":
+                    if (ecoSystem.canvas1Loc.x + 100 > ecoSystem.world.left){
+                      ecoSystem.canvas1Loc.x -= 20;
+                      this.actor.loc.x += 200;
+                    }
+                    break;
+                case "KeyD":
+                    if (ecoSystem.canvas1Loc.x + ecoSystem.canvas1.width - 100 < ecoSystem.world.right){
+                      ecoSystem.canvas1Loc.x += 20;
+                      console.log(this.actor.loc.x);
+                      this.actor.loc.x += 200;
+                      console.log(this.actor.loc.x);
+
+                    }
+                    break;
+                    break;
+             }
+         }, false);
 
         this.canvas1.addEventListener("click", function(event){
           let r = Math.floor((event.offsetY+ecoSystem.canvas1Loc.y-ecoSystem.world.top)/ecoSystem.cellHeight);
           let c = Math.floor((event.offsetX+ecoSystem.canvas1Loc.x-ecoSystem.world.left)/ecoSystem.cellWidth);
           ecoSystem.cells[r][c].occupied = !ecoSystem.cells[r][c].occupied;
-          //load neighbors if cell is not occupied
           if(!ecoSystem.cells[r][c].occupied){
             ecoSystem.cells[r][c].loadNeighbors(ecoSystem.cells[r][c].neighbors);
-          }else{//remove neighbors if cell is occupied
+          }else{
             ecoSystem.cells[r][c].neighbors = {
               n: null,
               ne: null,
@@ -89,15 +96,9 @@ class EcoSystem {
               nw: null
             }
           }
-
-
-          // if((c>=0 && c<ecoSystem.numCols) && (r>=0 && r<ecoSystem.numRows)){
-          //   ecoSystem.cells[r][c].occupied = !ecoSystem.cells[r][c].occupied;
-          // }
         });
-    }//  +++++++++++++++++++++++++++++++++++++++++++++++++++  end Constructor
+    }
 
-    // function to run the game each animation cycle
     run() {
       let ctx1 = this.context1;
       let cnv1 = this.canvas1;
@@ -175,13 +176,8 @@ class EcoSystem {
         }
       }
 
-      // for(let r=0; r<this.numRows; r++){
-      //   for(let c=0; c<this.numCols; c++){
-      //     this.cells[r][c].run();
-      //   }
-      // }
       this.actor.run();
-      this.canvas1Loc = new JSVector(this.actor.position.loc.x-this.cellWidth*3, this.actor.position.loc.y-this.cellHeight*3);
+      //this.canvas1Loc = new JSVector(this.actor.loc.x-this.cellWidth*3, this.actor.loc.y-this.cellHeight*3);
 
       ctx1.restore();
       ctx2.restore();
