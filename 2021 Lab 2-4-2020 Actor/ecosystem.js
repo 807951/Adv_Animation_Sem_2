@@ -14,112 +14,86 @@ class EcoSystem {
             width: 4000,
             height: 3000
         }
-
         this.numCols = 40;
         this.cellWidth = this.world.width/this.numCols;
         this.numRows = 40;
         this.cellHeight = this.world.height/this.numRows;
-
         this.cells = new Array(this.numRows);
-
-        for(let r=0; r<this.cells.length; r++){
+        for(let r=0; r<this.numRows; r++){
           this.cells[r] = new Array(this.numCols);
           for(let c=0; c<this.numCols; c++){
-            if(Math.random() < 0.3){
+            if(Math.random() < 0.25){
                 this.cells[r][c] = new Cell(this, r, c, true);
             }else{
                 this.cells[r][c] = new Cell(this, r, c, false);
             }
           }
         }
+        if(this.cells[0][0].occupied == true){
+            this.cells[0][0].occupied = false;
+        }
+        if(this.cells[this.numRows-1][this.numCols-1].occupied == true){
+            this.cells[this.numRows-1][this.numCols-1].occupied = false;
+        }
+        
         this.arrayLoaded = true;
-
-        this.canvas1Loc = new JSVector(this.cells[0][0].loc.x, this.cells[0][0].loc.y);
+        //console.log(this.numRows);
+        //console.log(this.numCols);
+        for(let a = 0; a < 40; a++){
+          for(let b = 0; b < 40; b++){
+            this.cells[a][b].loadNeighbors();
+          }
+        }
+        //this.loadNeighbors();
         this.actor = new Actor();
-
-        // canvas2 is scaled according to the ratio of its
-        // height and width to the height and width of the world
-        // so that the entire world fits within canvas2
+        /* while((this.actor.position.col <= 1) && (this.actor.position.row <= 1)){
+          let temp = this.actor.position.closestNeighbor();
+          this.actor.moveTo(temp.col, temp.row);
+          console.log("current x: " + this.actor.position.row + "  " + " current y: " + this.actor.position.col);
+          //console.log("dest x: " + y + "  " + "dest y: " + x);
+        } */
+        
+        for(let i  = 0; i < 4; i++){
+          let temp = this.actor.position.closestNeighbor();
+          this.actor.moveTo(temp.col, temp.row);
+          console.log("current x: " + this.actor.position.row + "  " + " current y: " + this.actor.position.col);
+        }
+        
+      
+        /* this.canvas1Loc = new JSVector(this.cells[0][0].loc.x, this.cells[0][0].loc.y);
+        this.actor = new Actor();
         this.scaleX = this.canvas2.width / this.world.width;
         this.scaleY = this.canvas2.height / this.world.height;
-         //add an event handler such that the a, s, w, d keys
-         //will reposition the canvas within the world.
-         window.addEventListener("keypress", function (event) {
-             switch (event.code) {
-                 case "KeyW":
-                     if (ecoSystem.canvas1Loc.y + 100 > ecoSystem.world.top){
-                       ecoSystem.canvas1Loc.y -= 20;
-                       this.actor.loc.y -= 200; 
-                     }
-                     break;
-                 case "KeyS":
-                 
-                     if (ecoSystem.canvas1Loc.y + ecoSystem.canvas1.height - 100 < ecoSystem.world.bottom){
-                      ecoSystem.canvas1Loc.y += 20;
-                      this.actor.loc.y += 200; 
-                     }
-                    break;
-                case "KeyA":
-                    if (ecoSystem.canvas1Loc.x + 100 > ecoSystem.world.left){
-                      ecoSystem.canvas1Loc.x -= 20;
-                      this.actor.loc.x += 200;
-                    }
-                    break;
-                case "KeyD":
-                    if (ecoSystem.canvas1Loc.x + ecoSystem.canvas1.width - 100 < ecoSystem.world.right){
-                      ecoSystem.canvas1Loc.x += 20;
-                      console.log(this.actor.loc.x);
-                      this.actor.loc.x += 200;
-                      console.log(this.actor.loc.x);
-
-                    }
-                    break;
-                    break;
-             }
-         }, false);
-
         this.canvas1.addEventListener("click", function(event){
           let r = Math.floor((event.offsetY+ecoSystem.canvas1Loc.y-ecoSystem.world.top)/ecoSystem.cellHeight);
           let c = Math.floor((event.offsetX+ecoSystem.canvas1Loc.x-ecoSystem.world.left)/ecoSystem.cellWidth);
           ecoSystem.cells[r][c].occupied = !ecoSystem.cells[r][c].occupied;
-          if(!ecoSystem.cells[r][c].occupied){
-            ecoSystem.cells[r][c].loadNeighbors(ecoSystem.cells[r][c].neighbors);
-          }else{
-            ecoSystem.cells[r][c].neighbors = {
-              n: null,
-              ne: null,
-              e: null,
-              se: null,
-              s: null,
-              sw: null,
-              w: null,
-              nw: null
+          for(let a = 0; a < 40; a++){
+            for(let b = 0; b < 40; b++){
+              this.cells[a][b].loadNeighbors();
+              console.log();
             }
           }
-        });
+        }); */
+        //console.log(this.cells[0][0].closestNeighbor());
+        
+        //this.cells[0][0].closestNeighbor();
     }
-
     run() {
       let ctx1 = this.context1;
       let cnv1 = this.canvas1;
       let ctx2 = this.context2;
       let cnv2 = this.canvas2;
       ctx1.fillStyle = "#3bc4b9";
-      //ctx1.fillStyle = "#505050";
       ctx1.fillRect(0, 0, cnv1.width, cnv1.height);
       ctx2.fillStyle = "#505050";
       ctx2.fillRect(0, 0, cnv2.width, cnv2.height);
-
       ctx1.save();
-      // translate according to the location of the canvas in the world
       ctx1.translate(-this.canvas1Loc.x, -this.canvas1Loc.y);
-      // draw the bounds of the world in canvas1
       ctx1.beginPath();
-      //ctx1.rect(this.world.left, this.world.top, this.world.width, this.world.height);
       ctx1.strokeStyle = "green";
       ctx1.lineWidth = 2;
       ctx1.stroke();
-      // draw the x and y axes of the world in canvas1
       ctx1.beginPath();
       ctx1.moveTo(this.world.left, 0);
       ctx1.lineTo(this.world.right, 0);
@@ -128,13 +102,9 @@ class EcoSystem {
       ctx1.strokeStyle = "red";
       ctx1.lineWidth = 2;
       ctx1.stroke();
-
       ctx2.save();
-      // scale canvas2 to contain the entire world
       ctx2.scale(this.scaleX, this.scaleY);
-      // center the world in canvas2
       ctx2.translate(this.world.width / 2, this.world.height / 2);
-      // draw the x and y axes of the world
       ctx2.beginPath();
       ctx2.moveTo(this.world.left, 0);
       ctx2.lineTo(this.world.right, 0);
@@ -143,8 +113,6 @@ class EcoSystem {
       ctx2.strokeStyle = "red";
       ctx2.lineWidth = 1 / this.scaleX;
       ctx2.stroke();
-
-      // draw the outline of canvas1 in canvas2
       let c1x = this.canvas1Loc.x;
       let c1y = this.canvas1Loc.y;
       ctx2.beginPath();
@@ -152,7 +120,6 @@ class EcoSystem {
       ctx2.lineWidth = 1 / this.scaleX;
       ctx2.rect(c1x, c1y, cnv1.width, cnv1.height);
       ctx2.stroke();
-
       let firstRow = Math.floor((this.canvas1Loc.y-this.world.top)/this.cellHeight);
       if(firstRow<0){
         firstRow=0;
@@ -169,17 +136,14 @@ class EcoSystem {
       if(lastCol>=this.numCols){
         lastCol=this.numCols-1;
       }
-
       for(let r=firstRow; r<=lastRow; r++){
         for(let c=firstCol; c<=lastCol; c++){
           this.cells[r][c].run();
         }
       }
-
       this.actor.run();
-      //this.canvas1Loc = new JSVector(this.actor.loc.x-this.cellWidth*3, this.actor.loc.y-this.cellHeight*3);
-
+      this.canvas1Loc = new JSVector(this.actor.position.loc.x - this.cellWidth * 3, this.actor.position.loc.y - this.cellHeight * 3);
       ctx1.restore();
       ctx2.restore();
   }
-}//  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++  end Class
+}
