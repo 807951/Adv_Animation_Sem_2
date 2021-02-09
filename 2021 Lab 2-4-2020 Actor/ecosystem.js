@@ -19,48 +19,33 @@ class EcoSystem {
         this.numRows = 40;
         this.cellHeight = this.world.height/this.numRows;
         this.cells = new Array(this.numRows);
-        for(let r=0; r<this.numRows; r++){
+        for(let r=0; r<this.cells.length; r++){
           this.cells[r] = new Array(this.numCols);
           for(let c=0; c<this.numCols; c++){
-            if(Math.random() < 0.25){
+            if(Math.random() < 0.3){
                 this.cells[r][c] = new Cell(this, r, c, true);
             }else{
                 this.cells[r][c] = new Cell(this, r, c, false);
             }
           }
         }
+        // makes sure the starting point and destination are not occupied
         if(this.cells[0][0].occupied == true){
             this.cells[0][0].occupied = false;
         }
         if(this.cells[this.numRows-1][this.numCols-1].occupied == true){
             this.cells[this.numRows-1][this.numCols-1].occupied = false;
         }
-        
         this.arrayLoaded = true;
-        //console.log(this.numRows);
-        //console.log(this.numCols);
-        for(let a = 0; a < 40; a++){
-          for(let b = 0; b < 40; b++){
-            this.cells[a][b].loadNeighbors();
+        this.loadNeighbors = function(){
+          for(let r=0; r<this.cells.length; r++){
+            for(let c=0; c<this.numCols; c++){
+              this.cells[r][c].loadNeighbors();
+            }
           }
         }
-        //this.loadNeighbors();
-        this.actor = new Actor();
-        /* while((this.actor.position.col <= 1) && (this.actor.position.row <= 1)){
-          let temp = this.actor.position.closestNeighbor();
-          this.actor.moveTo(temp.col, temp.row);
-          console.log("current x: " + this.actor.position.row + "  " + " current y: " + this.actor.position.col);
-          //console.log("dest x: " + y + "  " + "dest y: " + x);
-        } */
-        
-        for(let i  = 0; i < 4; i++){
-          let temp = this.actor.position.closestNeighbor();
-          this.actor.moveTo(temp.col, temp.row);
-          console.log("current x: " + this.actor.position.row + "  " + " current y: " + this.actor.position.col);
-        }
-        
-      
-        /* this.canvas1Loc = new JSVector(this.cells[0][0].loc.x, this.cells[0][0].loc.y);
+        this.loadNeighbors();
+        this.canvas1Loc = new JSVector(this.cells[0][0].loc.x, this.cells[0][0].loc.y);
         this.actor = new Actor();
         this.scaleX = this.canvas2.width / this.world.width;
         this.scaleY = this.canvas2.height / this.world.height;
@@ -68,16 +53,8 @@ class EcoSystem {
           let r = Math.floor((event.offsetY+ecoSystem.canvas1Loc.y-ecoSystem.world.top)/ecoSystem.cellHeight);
           let c = Math.floor((event.offsetX+ecoSystem.canvas1Loc.x-ecoSystem.world.left)/ecoSystem.cellWidth);
           ecoSystem.cells[r][c].occupied = !ecoSystem.cells[r][c].occupied;
-          for(let a = 0; a < 40; a++){
-            for(let b = 0; b < 40; b++){
-              this.cells[a][b].loadNeighbors();
-              console.log();
-            }
-          }
-        }); */
-        //console.log(this.cells[0][0].closestNeighbor());
-        
-        //this.cells[0][0].closestNeighbor();
+          ecoSystem.loadNeighbors();
+        });
     }
     run() {
       let ctx1 = this.context1;
@@ -142,7 +119,7 @@ class EcoSystem {
         }
       }
       this.actor.run();
-      this.canvas1Loc = new JSVector(this.actor.position.loc.x - this.cellWidth * 3, this.actor.position.loc.y - this.cellHeight * 3);
+      this.canvas1Loc = new JSVector(this.actor.position.loc.x-this.cellWidth*3, this.actor.position.loc.y-this.cellHeight*3);
       ctx1.restore();
       ctx2.restore();
   }
