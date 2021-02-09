@@ -22,7 +22,7 @@ class EcoSystem {
         for(let r=0; r<this.cells.length; r++){
           this.cells[r] = new Array(this.numCols);
           for(let c=0; c<this.numCols; c++){
-            if(Math.random() < 0.3){
+            if(Math.random() <= 0.25){
                 this.cells[r][c] = new Cell(this, r, c, true);
             }else{
                 this.cells[r][c] = new Cell(this, r, c, false);
@@ -61,9 +61,9 @@ class EcoSystem {
       let cnv1 = this.canvas1;
       let ctx2 = this.context2;
       let cnv2 = this.canvas2;
-      ctx1.fillStyle = "#3bc4b9";
+      ctx1.fillStyle = "white";
       ctx1.fillRect(0, 0, cnv1.width, cnv1.height);
-      ctx2.fillStyle = "#505050";
+      ctx2.fillStyle = "white";
       ctx2.fillRect(0, 0, cnv2.width, cnv2.height);
       ctx1.save();
       ctx1.translate(-this.canvas1Loc.x, -this.canvas1Loc.y);
@@ -76,7 +76,7 @@ class EcoSystem {
       ctx1.lineTo(this.world.right, 0);
       ctx1.moveTo(0, this.world.top);
       ctx1.lineTo(0, this.world.bottom);
-      ctx1.strokeStyle = "red";
+      ctx1.strokeStyle = "black";
       ctx1.lineWidth = 2;
       ctx1.stroke();
       ctx2.save();
