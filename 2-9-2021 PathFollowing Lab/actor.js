@@ -24,7 +24,6 @@ class Actor {
 
     update(){
         if(this.currentCell != this.lastCell){
-                this.currentCell.r == this.nextCell.r;
                 this.pathIndex++;
                 this.currentCell = game.path[this.pathIndex];
                 if(this.nextCell != this.lastCell){
