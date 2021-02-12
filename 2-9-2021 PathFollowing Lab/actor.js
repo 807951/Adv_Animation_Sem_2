@@ -24,26 +24,14 @@ class Actor {
 
     update(){
         if(this.currentCell != this.lastCell){
-                if(this.currentCell.r == this.nextCell.r){
-                    this.currentCell.c == this.nextCell.c;
-                    this.pathIndex++;
-                    this.currentCell = game.path[this.pathIndex];
-                    if(this.nextCell != this.lastCell){
+                this.currentCell.r == this.nextCell.r;
+                this.pathIndex++;
+                this.currentCell = game.path[this.pathIndex];
+                if(this.nextCell != this.lastCell){
                         this.nextCell = game.path[this.pathIndex+1];
-                    }
-                    this.target = new JSVector(this.nextCell.loc.x + this.nextCell.width/2, this.nextCell.loc.y + this.nextCell.height/2);
-                    this.loc = new JSVector(this.currentCell.loc.x + this.currentCell.width/2, this.currentCell.loc.y + this.currentCell.height/2);
                 }
-                else if(this.currentCell.c == this.nextCell.c){
-                    this.currentCell.c == this.nextCell.c;
-                    this.pathIndex++;
-                    this.currentCell = game.path[this.pathIndex];
-                    if(this.nextCell != this.lastCell){
-                        this.nextCell = game.path[this.pathIndex+1];
-                    }
-                    this.target = new JSVector(this.nextCell.loc.x + this.nextCell.width/2, this.nextCell.loc.y + this.nextCell.height/2);
-                    this.loc = new JSVector(this.currentCell.loc.x + this.currentCell.width/2, this.currentCell.loc.y + this.currentCell.height/2);
-                }
+                this.target = new JSVector(this.nextCell.loc.x + this.nextCell.width/2, this.nextCell.loc.y + this.nextCell.height/2);
+                this.loc = new JSVector(this.currentCell.loc.x + this.currentCell.width/2, this.currentCell.loc.y + this.currentCell.height/2);
         }
     }
 
