@@ -19,6 +19,7 @@ class Actor {
 
     run() {
         this.update();
+        setTimeout(() => {  console.log("EE"); }, 2000);
         this.render();
     }
 
