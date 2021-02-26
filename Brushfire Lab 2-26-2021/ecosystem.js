@@ -119,7 +119,7 @@ class EcoSystem {
         }
       }
       this.actor.run();
-      this.canvas1Loc = new JSVector(this.actor.position.loc.x-this.cellWidth*3, this.actor.position.loc.y-this.cellHeight*3);
+      this.canvas1Loc = new JSVector(this.actor.currentCell.loc.x-this.cellWidth*3, this.actor.currentCell.loc.y-this.cellHeight*3);
       ctx1.restore();
       ctx2.restore();
   }

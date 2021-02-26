@@ -14,7 +14,11 @@ class Cell{
     
     this.loc = new JSVector(this.x, this.y);
 
-    this.neighbors = {};
+    this.n = null;
+    this.e = null;
+    this.s = null;
+    this.w = null;
+    
     this.occupied = occupied;
     // finds dist from destination
     this.distFromDest = Math.sqrt(Math.pow(40 - this.col, 2) + Math.pow(40 - this.row, 2)); 
@@ -45,36 +49,30 @@ class Cell{
     ctx1.restore();
   }
   loadNeighbors(){
-    this.neighbors = {
-      n: null,
-      e: null,
-      s: null,
-      w: null
-    };
     let cells = this.ecosystem.cells;
     let r = this.row;
     let c = this.col;
     if(!this.occupied){
       if(this.row > 0){ //north neighbor
         if(!cells[r-1][this.col].occupied){
-          this.neighbors.n = cells[this.row-1][this.col];
+          this.n = cells[this.row-1][this.col];
         }
       }
 
       if(this.col < this.ecosystem.numCols - 1){ //east neighbor
         if(!cells[this.row][this.col+1].occupied){
-          this.neighbors.e = cells[this.row][this.col+1];
+          this.e = cells[this.row][this.col+1];
         }
       }
 
       if(this.row < this.ecosystem.numRows - 1){ //south neighbor
         if(!cells[this.row+1][this.col].occupied){
-          this.neighbors.s = cells[this.row+1][this.col];
+          this.s = cells[this.row+1][this.col];
         }
       }
       if(this.col > 0){ //west neigbbor
         if(!cells[this.row][this.col-1].occupied){
-          this.neighbors.w = cells[this.row][this.col-1];
+          this.w = cells[this.row][this.col-1];
         }
       }
     }
