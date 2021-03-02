@@ -13,13 +13,13 @@ class Cell {
         this.parent = null;
         this.clr;
         if(r==game.numRows-1 && c==game.numCols-1){
-          this.clr = "green"
+          this.clr = "pink"
         }
         else if(this.occupied == true){
-          this.clr = "red"
+          this.clr = "grey"
         }
         else if(!this.parent){
-          this.clr = "blue"
+          this.clr = "white"
         }
         this.neighbors = new Array();
         this.center = new JSVector(this.loc.x+this.game.cellWidth/2, this.loc.y+this.game.cellHeight/2);
@@ -42,20 +42,20 @@ class Cell {
     }
 
     loadNeighbors(){
-  if(this.game.arrLoaded && this.neighbors.length==0){
-    if(this.r>0){//north
-      this.neighbors.push(this.game.grid[this.r-1][this.c]);
-    }
-    if(this.c>0){//west
-      this.neighbors.push(this.game.grid[this.r][this.c-1]);
-    }
-    if(this.r<this.game.numRows-1){//south
-      this.neighbors.push(this.game.grid[this.r+1][this.c]);
-    }
-    if(this.c<this.game.numCols-1){//east
-      this.neighbors.push(this.game.grid[this.r][this.c+1]);
-    }
-  }
-}
+            if(this.game.arrLoaded && this.neighbors.length==0){
+                    if(this.r>0){//north
+                      this.neighbors.push(this.game.grid[this.r-1][this.c]);
+                    }
+                    if(this.c>0){//west
+                      this.neighbors.push(this.game.grid[this.r][this.c-1]);
+                    }
+                    if(this.r<this.game.numRows-1){//south
+                      this.neighbors.push(this.game.grid[this.r+1][this.c]);
+                    }
+                    if(this.c<this.game.numCols-1){//east
+                      this.neighbors.push(this.game.grid[this.r][this.c+1]);
+                    }
+            }
+     }
 
 }//+++++++++++++++++++++  end of Cell class

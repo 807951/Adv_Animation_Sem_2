@@ -1,0 +1,17 @@
+body {
+  background-color: #013135;
+   margin:0;
+ }
+
+#wrapperDiv {
+ width:1100px;
+ height:800px;
+ margin:auto;
+ margin-top: 20px;
+ background-color:white;
+ border: 5px solid black;
+}
+
+#canvas {
+    border: solid black 2px;
+}
