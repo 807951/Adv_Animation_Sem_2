@@ -10,9 +10,9 @@ function Game(){
     this.ctx = this.canvas.getContext('2d'); // This is the context
 
     //  set number of cells in grid
-    this.numCols = 35;
+    this.numCols = 10;
     this.cellWidth = this.canvas.width / this.numCols;
-    this.numRows = 30;
+    this.numRows = 10;
     this.cellHeight = this.canvas.height / this.numRows;
 
     // Create the two-dimensional grid of cells
@@ -22,7 +22,7 @@ function Game(){
     for (let r = 0; r < this.grid.length; r++) {
         this.grid[r] = new Array(this.numCols);
         for (let c = 0; c < this.grid[r].length; c++) {
-            if((Math.random()*10+1) <= 2){
+            if((Math.random()*10+1) <= 4){
               this.grid[r][c] = new Cell(this, r, c, true);
             }
             else{
@@ -51,7 +51,7 @@ function Game(){
 
     //create the actors
     this.actors = [];
-    for(let i=0;i<25;i++){
+    for(let i=0;i<50;i++){
       let r = Math.floor(Math.random()*(this.numRows-1));
       let c = Math.floor(Math.random()*(this.numCols-1));
       let cell = this.grid[r][c];
@@ -90,6 +90,7 @@ Game.prototype.distances = function(){
         currentCell.neighbors[i].dist=currentCell.dist+10;
         currentCell.neighbors[i].parent=currentCell;
         queue.push(currentCell.neighbors[i]);
+
       }
     }
   }

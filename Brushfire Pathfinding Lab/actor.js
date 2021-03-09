@@ -51,11 +51,11 @@ class Actor {
     }
 
     findNextCell(){
-      for(let i=0; i<this.currentCell.neighbors.length; i++){
-        if(this.currentCell.neighbors[i].dist<this.nextCell.dist){
-          this.nextCell = this.currentCell.neighbors[i];
-          this.target = new JSVector(this.nextCell.loc.x + this.nextCell.width/2, this.nextCell.loc.y + this.nextCell.height/2);
-        }
-      }
+            for(let i=0; i<this.currentCell.neighbors.length; i++){
+                if(this.currentCell.neighbors[i].dist<this.nextCell.dist){
+                  this.nextCell = this.currentCell.neighbors[i];
+                  this.target = new JSVector(this.nextCell.loc.x + this.nextCell.width/2, this.nextCell.loc.y + this.nextCell.height/2);
+                }
+            }
     }
 }
