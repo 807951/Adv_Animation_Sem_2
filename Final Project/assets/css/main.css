@@ -1,0 +1,85 @@
+
+
+body {
+   background-color: white;
+   margin:0;
+ }
+
+
+canvas {
+    border: solid black 2px;
+    margin: 20px;
+
+    display:block;
+/*    background-color: rgba(0,0,0, .95); */
+}
+
+#infoCnv{
+  vertical-align: top;
+  margin-top: 20px;
+  float: left
+}
+#cnv2{
+  vertical-align: top;
+  margin: 20px;
+  margin-left: 100px;
+  float: left;
+}
+
+.menuButton {
+  margin-top: 30px;
+  margin-left: 65px;
+  height: 50px;
+  width: 50px;
+  float:left;
+  margin-right:60px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.sideButton {
+  margin-top: 60px;
+  margin-left: 28px;
+  height: 50px;
+  width: 50px;
+  float:left;
+  margin-right:60px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+#menuButton0 {
+
+  background-image: url("../../assets/buttonBackgrounds/menuButtonBackgrounds/bottle.png");
+}
+#menuButton1 {
+  background-image: url("../../assets/buttonBackgrounds/menuButtonBackgrounds/needle.png");
+}
+#menuButton2 {
+  background-image: url("../../assets/buttonBackgrounds/menuButtonBackgrounds/pills.png");
+}
+#menuButton3 {
+  background-image: url("../../assets/buttonBackgrounds/menuButtonBackgrounds/staff.png");
+}
+#menuButton4 {
+  background-image: url("../../assets/buttonBackgrounds/menuButtonBackgrounds/vaccine.png");
+}
+
+#sideButton0 {
+  background-image: url("../../assets/buttonBackgrounds/sideButtonBackgrounds/covid.png");
+}
+#sideButton1 {
+  background-image: url("../../assets/buttonBackgrounds/sideButtonBackgrounds/heart.png");
+}
+#sideButton2 {
+  background-image: url("../../assets/buttonBackgrounds/sideButtonBackgrounds/mask.png");
+}
+#sideButton3 {
+  background-image: url("../../assets/buttonBackgrounds/sideButtonBackgrounds/menu.png");
+}
+#sideButton4 {
+  background-image: url("../../assets/buttonBackgrounds/sideButtonBackgrounds/playPause.png");
+
+}
